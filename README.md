@@ -1,7 +1,82 @@
 
-# mongoose-paginate (DEPRECATED)
+# mongoose-paginate [![Build Status](https://secure.travis-ci.org/edwardhotchkiss/mongoose-paginate.png)](http://travis-ci.org/edwardhotchkiss/mongoose-paginate) [![Git Tip](http://img.shields.io/gittip/edwardhotchkiss.svg)](https://www.gittip.com/edwardhotchkiss/)
 
-I started my Open Source career as looking for a solution, but ended up being part of a growing culture of a systemic problem. While the problem as I know it cannot be traced to any individual or company; I do believe that it comes from a misconception of the original goals Open Source sought to achieve. While the goals are Open & free software we often misinterpret this as 
-“roll my own software”, “I could make xyz better”, all kinds of narcissistic ideals which when considered are not in fact ideals at all.
+> Mongoose ORM (NodeJS/MongoDB) Document Query Pagination
 
-JavaScript has become the defacto and go to solution for anything. We write backends, frontends, databases and even IoT in JavaScript but why? We are a fractured ecosystem. I’d like to focus on existing OSS which needs more work. Thanks to all who contributed.
+To be used in combination with view pagination middleware such as [express-paginate](https://github.com/niftylettuce/express-paginate).
+
+## Installation
+
+```bash
+npm install -S mongoose-paginate
+```
+
+## Usage
+
+#### Basic
+
+```js
+
+/*
+ * basic example usage of `mongoose-pagination`
+ * querying for `all` {} items in `MyModel`
+ * paginating by second page, 10 items per page (10 results, page 2)
+ */
+
+var mongoosePaginate = require('mongoose-paginate');
+
+MyModel.plugin(mongoosePaginate)
+
+MyModel.paginate({}, 2, 10, function(error, pageCount, paginatedResults, itemCount) {
+  if (error) {
+    console.error(error);
+  } else {
+  	console.log('Pages:', pageCount);
+    console.log(paginatedResults);
+  }
+});
+
+```
+
+#### Advanced
+
+```js
+
+/*
+ * advanced example usage of `mongoose-pagination`
+ * querying for `{ columns: 'title', { populate: 'some_ref' }, { sortBy : { title : -1 } }` items in `MyModel`
+ * paginating by second page, 10 items per page (10 results, page 2)
+ */
+
+var mongoosePaginate = require('mongoose-paginate');
+
+MyModel.plugin(mongoosePaginate)
+
+MyModel.paginate({}, 2, 10, function(error, pageCount, paginatedResults, itemCount) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('Pages:', pageCount);
+    console.log(paginatedResults);
+  }
+}, { columns: 'title', populate: 'some_ref', sortBy : { title : -1 });
+
+```
+
+## Run Tests
+
+``` bash
+$ npm test
+```
+
+### Author: [Edward Hotchkiss][0]
+
+[0]: http://edwardhotchkiss.com/
+
+
+### Contributors
+
+* [Nick Baugh](https://github.com/niftylettuce)
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/edwardhotchkiss/mongoose-paginate/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
